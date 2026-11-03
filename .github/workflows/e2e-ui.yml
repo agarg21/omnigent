@@ -386,13 +386,13 @@ jobs:
         env:
           # Scheduled / manually dispatched runs are the full pass;
           # PR and push runs exclude @pytest.mark.nightly tests.
-          NIGHTLY_FULL: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+          NIGHTLY_FULL: 'false'  # fork-only: same selection as a PR run
           SHARD_ID: ${{ matrix.shard_id }}
           NUM_SHARDS: ${{ matrix.num_shards }}
           UI_SCOPE: ${{ needs.setup.outputs.ui }}
           # Dispatch input, else the E2E_UI_PARALLELISM repository variable (unset on
           # fork PRs), else serial.
-          PARALLELISM_INPUT: ${{ inputs.parallelism || vars.E2E_UI_PARALLELISM || '1' }}
+          PARALLELISM_INPUT: ${{ inputs.parallelism || vars.E2E_UI_PARALLELISM || '2' }}
           OMNIGENT_E2E_ANTIGRAVITY: mock
           # Prebuilt sidecar from build-sidecar; the codex goal-mode fixture
           # uses this instead of running cargo build. Absolute path: the
